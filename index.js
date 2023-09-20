@@ -6,6 +6,20 @@ const session = require('express-session');
 const { check, validationResult} = require('express-validator');
 const bodyParser = require('body-parser');
 const { v4: uuidv4 } = require('uuid');
+const axios = require('axios');
+
+// Disregard this, it's already inside the route to dashboard's block
+
+// axios.get('https://www.themealdb.com/api/json/v1/1/random.php')
+// .then((response) => {
+//     console.log(response.data);
+// })
+// .catch(function(error) {
+//     console.log(error);
+// })
+// .finally(function() {
+//     console.log("This will always run")
+// });
 
 //express object
 const app = express();
@@ -88,6 +102,18 @@ app.get('/dashboard', async (req, res) => {
         console.error('Error fetching cat data:', error);
         res.render('dashboard', { title: 'Dashboard', user: req.session.user, catData: null, error: 'Error fetching cat data' });
     }
+
+    // Axios GET Request
+axios.get('https://www.themealdb.com/api/json/v1/1/random.php')
+.then((response) => {
+    console.log(response.data);
+})
+.catch(function(error) {
+    console.log(error);
+})
+.finally(function() {
+    console.log("This will always run")
+});
 });
 
 // route to destroy session
@@ -106,4 +132,3 @@ app.get('/logout', (req, res) => {
 app.listen(port, () => {
     console.log(`The server is at http://${hostname}:${port}.`);
 });
-
